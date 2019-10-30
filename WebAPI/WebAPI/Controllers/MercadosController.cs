@@ -10,11 +10,12 @@ namespace WebAPI.Controllers
 {
     public class MercadosController : ApiController
     {
+
         // GET: api/Mercados
-        public IEnumerable<MercadoDTO> Get()
+        public IEnumerable<Mercado> Get()
         {
             var repo = new MercadosRepository();
-            List<MercadoDTO> mercados = repo.RetrieveDTO();
+            List<Mercado> mercados = repo.Retrieve();
             return mercados;
         }
 
@@ -25,7 +26,7 @@ namespace WebAPI.Controllers
             Mercado m = repo.Retrieve(id);
             return m;
         }
-
+        /*
         // GET: api/Mercados?id_partido={id_partido}
         public List<MercadoDTO> GetbyEvento(int id_partido)
         {
@@ -48,5 +49,6 @@ namespace WebAPI.Controllers
         public void Delete(int id)
         {
         }
+        */
     }
 }

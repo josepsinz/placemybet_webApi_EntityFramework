@@ -7,9 +7,18 @@ namespace WebAPI.Models
 {
     public class Evento
     {
-        public Evento(int id, DateTime fecha, string local, int golesLocal, string visitante, int golesVisitante)
+        public int EventoId { get; set; }
+        public DateTime Fecha { get; set; }
+        public string Local { get; set; }
+        public int GolesLocal { get; set; }
+        public string Visitante { get; set; }
+        public int GolesVisitante { get; set; }
+
+        public List<Mercado> Mercados { get; set; }
+
+        public Evento(int eventoid, DateTime fecha, string local, int golesLocal, string visitante, int golesVisitante)
         {
-            Id = id;
+            EventoId = eventoid;
             Fecha = fecha;
             Local = local;
             GolesLocal = golesLocal;
@@ -17,16 +26,14 @@ namespace WebAPI.Models
             GolesVisitante = golesVisitante;
         }
 
-        public int Id { get; set; }
-        public DateTime Fecha { get; set; }
-        public string Local { get; set; }
-        public int GolesLocal { get; set; }
-        public string Visitante { get; set; }
-        public int GolesVisitante { get; set; }
+        public Evento()
+        {
+
+        }
     }
 
-    //-------------------------------------------------//
 
+    /*
     public class EventoDTO
     {
         public EventoDTO(string local, string visitante)
@@ -38,4 +45,5 @@ namespace WebAPI.Models
         public string Local { get; set; }
         public string Visitante { get; set; }
     }
+    */
 }

@@ -7,6 +7,7 @@ namespace WebAPI.Models
 {
     public class Usuario
     {
+        public int UsuarioId { get; set; }
         public string Email { get; set; }
         public string Nombre { get; set; }
         public string Apellidos { get; set; }
@@ -15,8 +16,12 @@ namespace WebAPI.Models
         public bool Administrador { get; set; }
         public string Password { get; set; }
 
-        public Usuario(string email, string nombre, string apellidos, int edad, double fondos, bool administrador, string password)
+        public Cuenta Cuenta { get; set; }
+        public List<Apuesta> Apuestas { get; set; }
+
+        public Usuario(int id, string email, string nombre, string apellidos, int edad, double fondos, bool administrador, string password)
         {
+            UsuarioId = id;
             Email = email;
             Nombre = nombre;
             Apellidos = apellidos;
@@ -25,8 +30,14 @@ namespace WebAPI.Models
             Administrador = administrador;
             Password = password;
         }
-    }
 
+        public Usuario()
+        {
+
+        }
+
+    }
+    /*
     public class UsuarioDTO
     {
         public string Email { get; set; }
@@ -38,4 +49,5 @@ namespace WebAPI.Models
            
         }
     }
+    */
 }

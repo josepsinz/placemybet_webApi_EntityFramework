@@ -11,20 +11,23 @@ namespace WebAPI.Controllers
 {
     public class ApuestasController : ApiController
     {
+
         // GET: api/Apuestas
-        public IEnumerable<ApuestaDTO> Get()
+        public IEnumerable<Apuesta> Get()
         {
             var repo = new ApuestasRepository();
-            List<ApuestaDTO> apuestas = repo.RetrieveDTO();
+            List<Apuesta> apuestas = repo.Retrieve();
             return apuestas;
         }
 
         // GET: api/Apuestas/5
-        public string Get(int id)
+        public Apuesta Get(int id)
         {
-            return "value";
+            var repo = new ApuestasRepository();
+            Apuesta apuesta = repo.Retrieve(id);
+            return apuesta;
         }
-
+        /*
         //GET: api/Apuestas?email={email}
         public List<ApuestaDTObyEmail> GetByEmail(string email)
         {
@@ -96,5 +99,6 @@ namespace WebAPI.Controllers
         public void Delete(int id)
         {
         }
+        */
     }
 }

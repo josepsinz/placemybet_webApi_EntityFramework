@@ -10,44 +10,20 @@ namespace WebAPI.Models
 {
     public class UsuariosRepository
     {
-        private MySqlConnection Connect()
-        {
-            string connString = "server=localhost;user=root;database=placemybet";
-            MySqlConnection con = new MySqlConnection(connString);
-            return con;
-        }
+
         internal List<Usuario> Retrieve()
         {
-            MySqlConnection con = Connect();
-            MySqlCommand command = con.CreateCommand();
-            command.CommandText = "select * from usuario";
+            List<Usuario> usuarios = new List<Usuario>();
 
-            try
+            using (PlaceMyBetContext context = new PlaceMyBetContext())
             {
-                con.Open();
-                MySqlDataReader res = command.ExecuteReader();
-
-                Usuario u = null;
-                List<Usuario> usuarios = new List<Usuario>();
-                while (res.Read())
-                {
-                    Debug.WriteLine("Recuperado: " + res.GetString(0) + " " + res.GetString(1) + " " + res.GetString(2) + " " + res.GetInt32(3) + " " + res.GetDouble(4) + " " + res.GetBoolean(5) + " " + res.GetString(6));
-                    u = new Usuario(res.GetString(0), res.GetString(1), res.GetString(2), res.GetInt32(3), res.GetDouble(4), res.GetBoolean(5), res.GetString(6));
-                    usuarios.Add(u);
-                }
-
-                con.Close();
-                return usuarios;
-            }
-            catch
-            {
-                Debug.WriteLine("Se ha producido un error de conexión");
-                return null;
+                usuarios = context.Usuarios.ToList();
             }
 
+            return usuarios;
         }
 
-
+        /*
         internal void Save(Usuario u)
         {
             CultureInfo culInfo = new System.Globalization.CultureInfo("es-ES");
@@ -80,5 +56,6 @@ namespace WebAPI.Models
                 Debug.WriteLine("Se ha producido un error de conexión");
             }
         }
+        */
     }
 }

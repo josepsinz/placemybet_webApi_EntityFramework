@@ -10,15 +10,15 @@ namespace WebAPI.Controllers
 {
     public class UsuariosController : ApiController
     {
+
         // GET: api/Usuarios
         public IEnumerable<Usuario> Get()
         {
             var repo = new UsuariosRepository();
             List<Usuario> usuarios = repo.Retrieve();
-            
             return usuarios;
         }
-
+        /*
         // GET: api/Usuarios/5
         public string Get(int id)
         {
@@ -39,5 +39,6 @@ namespace WebAPI.Controllers
         public void Delete(int id)
         {
         }
+        */
     }
 }

@@ -9,73 +9,31 @@ namespace WebAPI.Models
 {
     public class MercadosRepository
     {
-        private MySqlConnection Connect()
-        {
-            string connString = "server=localhost;user=root;database=placemybet";
-            MySqlConnection con = new MySqlConnection(connString);
-            return con;
-        }
+
         internal List<Mercado> Retrieve()
         {
-            MySqlConnection con = Connect();
-            MySqlCommand command = con.CreateCommand();
-            command.CommandText = "select * from mercado";
+            List<Mercado> mercados = new List<Mercado>();
 
-            try
+            using (PlaceMyBetContext context = new PlaceMyBetContext())
             {
-                con.Open();
-                MySqlDataReader res = command.ExecuteReader();
-
-                Mercado m = null;
-                List<Mercado> mercados = new List<Mercado>();
-                while (res.Read())
-                {
-                    Debug.WriteLine("Recuperado: " + res.GetInt32(0) + " " + res.GetFloat(1) + " " + res.GetFloat(2) + " " + res.GetFloat(3) + " " + res.GetDouble(4) + " " + res.GetDouble(5) + " " + res.GetInt32(6));
-                    m = new Mercado(res.GetInt32(0), res.GetFloat(1), res.GetFloat(2), res.GetFloat(3), res.GetDouble(4), res.GetDouble(5), res.GetInt32(6));
-                    mercados.Add(m);
-                }
-
-                con.Close();
-                return mercados;
-            }
-            catch
-            {
-                Debug.WriteLine("Se ha producido un error de conexión");
-                return null;
+                mercados = context.Mercados.ToList();
             }
 
+            return mercados;
         }
 
         internal Mercado Retrieve(int id)
         {
-            MySqlConnection con = Connect();
-            MySqlCommand command = con.CreateCommand();
-            command.CommandText = "select * from mercado where Id=@id";
-            command.Parameters.AddWithValue("@id", id);
-            try
-            {
-                con.Open();
-                MySqlDataReader res = command.ExecuteReader();
+            Mercado mercado;
 
-                Mercado m = null;
-               
-                if (res.Read())
-                {
-                    Debug.WriteLine("Recuperado: " + res.GetInt32(0) + " " + res.GetFloat(1) + " " + res.GetFloat(2) + " " + res.GetFloat(3) + " " + res.GetDouble(4) + " " + res.GetDouble(5) + " " + res.GetInt32(6));
-                    m = new Mercado(res.GetInt32(0), res.GetFloat(1), res.GetFloat(2), res.GetFloat(3), res.GetDouble(4), res.GetDouble(5), res.GetInt32(6));
-                }
-
-                con.Close();
-                return m;
-            }
-            catch
+            using (PlaceMyBetContext context = new PlaceMyBetContext())
             {
-                Debug.WriteLine("Se ha producido un error de conexión");
-                return null;
+                mercado = context.Mercados.Where(s => s.MercadoId == id).FirstOrDefault();
             }
 
+            return mercado;
         }
-
+        /*
         internal List<MercadoDTO> RetrieveDTO()
         {
             MySqlConnection con = Connect();
@@ -173,5 +131,6 @@ namespace WebAPI.Models
                
             }
         }
+        */
     }
 }

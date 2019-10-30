@@ -7,26 +7,36 @@ namespace WebAPI.Models
 {
     public class Apuesta
     {
-        public Apuesta(int id, float mercado, bool tipo, float cuota, double apostado, int id_mercado, string email)
-        {
-            Id = id;
-            Mercado = mercado;
-            Tipo = tipo;
-            Cuota = cuota;
-            Apostado = apostado;
-            Id_Mercado = id_mercado;
-            Email = email;
-        }
-
-        public int Id { get; set; }
-        public float Mercado { get; set; }
-        public bool Tipo { get; set; }
+        public int ApuestaId { get; set; }
+        public float TipoMercado { get; set; }
+        public bool isOver { get; set; }
         public float Cuota { get; set; }
         public double Apostado { get; set; }
-        public int Id_Mercado { get; set; }
-        public string Email { get; set; }
-    }
 
+        public int UsuarioId { get; set; }
+        public Usuario Usuario { get; set; }
+
+        public int MercadoId { get; set; }
+        public Mercado Mercado { get; set; }
+
+        public Apuesta(int apuestaid, float mercado, bool isover, float cuota, double apostado, int usuarioid, int mercadoid)
+        {
+            ApuestaId = apuestaid;
+            TipoMercado = mercado;
+            isOver = isover;
+            Cuota = cuota;
+            Apostado = apostado;
+            UsuarioId = usuarioid;
+            MercadoId = mercadoid;
+        }
+
+        public Apuesta()
+        {
+
+        }
+
+    }
+    /*
     public class ApuestaDTO
     {
         public ApuestaDTO(float mercado, bool tipo, float cuota, double apostado, string email)
@@ -68,4 +78,5 @@ namespace WebAPI.Models
         public float Cuota { get; set; }
         public double Apostado { get; set; }
     }
+    */
 }
