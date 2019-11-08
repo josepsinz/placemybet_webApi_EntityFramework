@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
@@ -13,10 +14,17 @@ namespace WebAPI.Models
         internal List<Mercado> Retrieve()
         {
             List<Mercado> mercados = new List<Mercado>();
-
+            
             using (PlaceMyBetContext context = new PlaceMyBetContext())
             {
-                mercados = context.Mercados.ToList();
+               
+                mercados = context.Mercados.Include(p => p.Evento).ToList();
+                foreach (var mer in mercados)
+                {
+                    Debug.WriteLine(mer.MercadoId);
+                    Debug.WriteLine(mer.Evento.Local);
+                }
+
             }
 
             return mercados;
@@ -25,14 +33,75 @@ namespace WebAPI.Models
         internal Mercado Retrieve(int id)
         {
             Mercado mercado;
+            
+            using (PlaceMyBetContext context = new PlaceMyBetContext())
+            {
+                
+                mercado = context.Mercados.Where(s => s.MercadoId == id).FirstOrDefault();
+               
+               
+
+            }
+           
+            return mercado;
+        }
+
+        internal List<Mercado> RetrieveByEvento(int id)
+        {
+            List<Mercado> mercados;
 
             using (PlaceMyBetContext context = new PlaceMyBetContext())
             {
-                mercado = context.Mercados.Where(s => s.MercadoId == id).FirstOrDefault();
+                mercados = context.Mercados.Where(s => s.EventoId == id).ToList();
             }
 
-            return mercado;
+            return mercados;
         }
+
+
+        internal void Save(Mercado m)
+        {
+            //presuponer que las cuotas serán 1.9 y que el dinero base seran 100€
+            //ponerlo
+            try
+            {
+                PlaceMyBetContext context = new PlaceMyBetContext();
+                context.Mercados.Add(m);
+                context.SaveChanges();
+            }
+            catch
+            {
+                Debug.WriteLine("ERROR");
+            }
+        }
+
+        internal void Refresh(Mercado m, Apuesta a)
+        {
+            using (PlaceMyBetContext context = new PlaceMyBetContext())
+            {
+                m = context.Mercados.Where(s => s.MercadoId == a.MercadoId).FirstOrDefault();
+                if (a.isOver)
+                {
+                    m.DineroOver += a.Apostado;
+                }
+                else
+                {
+                    m.DineroUnder += a.Apostado;
+                }
+
+                double probOV = m.DineroOver / (m.DineroOver + m.DineroUnder);
+                double cuotaOV = 1 / probOV * 0.95;
+                double probUN = m.DineroUnder / (m.DineroOver + m.DineroUnder);
+                double cuotaUN = 1 / probUN * 0.95;
+
+
+                m.CuotaOver = (float)cuotaOV;
+                m.CuotaUnder = (float)cuotaUN;
+
+                context.SaveChanges();
+            }
+        }
+
         /*
         internal List<MercadoDTO> RetrieveDTO()
         {
@@ -93,44 +162,7 @@ namespace WebAPI.Models
             }
 
         }
-
-        internal void Refresh(Mercado m, Apuesta a)
-        {
-            if (a.Tipo)
-            {
-                m.DineroOver += a.Apostado;
-            } else
-            {
-                m.DineroUnder += a.Apostado;
-            }
-            
-            double probOV = m.DineroOver / (m.DineroOver + m.DineroUnder);
-            double cuotaOV = 1 / probOV * 0.95;
-            double probUN = m.DineroUnder / (m.DineroOver + m.DineroUnder);
-            double cuotaUN = 1 / probUN * 0.95;
-
-            MySqlConnection con = Connect();
-            MySqlCommand command = con.CreateCommand();
-            command.CommandText = "update mercado set Cuota_Over=@ctO, Cuota_Under=@ctU, Dinero_Over=@dO, Dinero_Under=@dU where Id=@id";
-            
-            command.Parameters.AddWithValue("@ctO", cuotaOV);
-            command.Parameters.AddWithValue("@ctU", cuotaUN);
-            command.Parameters.AddWithValue("@dO", m.DineroOver);
-            command.Parameters.AddWithValue("@dU", m.DineroUnder);
-            command.Parameters.AddWithValue("@id", m.Id);
-
-            try
-            {
-                con.Open();
-                command.ExecuteNonQuery();
-                con.Close();
-            }
-            catch
-            {
-                Debug.WriteLine("Se ha producido un error de conexión");
-               
-            }
-        }
         */
+
     }
 }

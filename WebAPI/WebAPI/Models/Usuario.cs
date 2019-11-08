@@ -29,6 +29,7 @@ namespace WebAPI.Models
             Fondos = fondos;
             Administrador = administrador;
             Password = password;
+            
         }
 
         public Usuario()

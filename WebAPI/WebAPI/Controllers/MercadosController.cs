@@ -26,20 +26,43 @@ namespace WebAPI.Controllers
             Mercado m = repo.Retrieve(id);
             return m;
         }
-        /*
+        
         // GET: api/Mercados?id_partido={id_partido}
-        public List<MercadoDTO> GetbyEvento(int id_partido)
+        public List<Mercado> GetbyEvento(int id_partido)
         {
             var repo = new MercadosRepository();
-            List<MercadoDTO> mercados = repo.RetrieveDTO(id_partido);
+            List<Mercado> mercados = repo.RetrieveByEvento(id_partido);
             return mercados;
         }
-
-        // POST: api/Mercados
-        public void Post([FromBody]string value)
+        /*
+        // GET: api/Mercados?id_apuesta={id_apuesta}
+        public List<Mercado> GetbyEvento(int id_partido)
         {
+            var repo = new MercadosRepository();
+            List<Mercado> mercados = repo.RetrieveByEvento(id_partido);
+            return mercados;
         }
-
+        */
+        // POST: api/Mercados
+        public void Post([FromBody]Mercado m)
+        {
+            if(m.TipoMercado == 1.5 || m.TipoMercado == 2.5 || m.TipoMercado == 3.5)
+            {
+                var repo1 = new MercadosRepository();
+                List<Mercado> mercados = repo1.RetrieveByEvento(m.EventoId);
+                List<float> tiposMercados = new List<float>();
+                foreach (Mercado mercado in mercados)
+                {
+                    tiposMercados.Add(mercado.TipoMercado);
+                }
+                if (!tiposMercados.Contains(m.TipoMercado))
+                {
+                    var repo2 = new MercadosRepository();
+                    repo2.Save(m);
+                }
+            }   
+        }
+        /*
         // PUT: api/Mercados/5
         public void Put(int id, [FromBody]string value)
         {

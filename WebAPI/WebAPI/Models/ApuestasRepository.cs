@@ -124,7 +124,9 @@ namespace WebAPI.Models
                 return null;
             }
         }
+        
 
+        
         internal void Save(Apuesta a)
         {
             CultureInfo culInfo = new System.Globalization.CultureInfo("es-ES");
@@ -157,6 +159,21 @@ namespace WebAPI.Models
             }
         }
         */
+        internal void Save (Apuesta a)
+        {
+            try
+            {
+                PlaceMyBetContext context = new PlaceMyBetContext();
+
+                context.Apuestas.Add(a);
+                context.SaveChanges();
+            }
+            catch
+            {
+                Debug.WriteLine("ERROR");
+            }
+        }
+        
     }
 }
 

@@ -44,8 +44,8 @@ namespace WebAPI.Controllers
             List<ApuestaDTO> apuestas = repo.RetrieveDTO(mercado);
             return apuestas;
         }
-
-        [Authorize]
+        */
+        //[Authorize]
         // POST: api/Apuestas
         public void Post([FromBody]Apuesta apuesta)
         {
@@ -53,20 +53,20 @@ namespace WebAPI.Controllers
             var repo2 = new MercadosRepository();
             var repo3 = new UsuariosRepository();
 
-            Mercado m = repo2.Retrieve(apuesta.Id_Mercado);
+            Mercado m = repo2.Retrieve(apuesta.MercadoId);
             List<Usuario> users = repo3.Retrieve();
-            List<string> emails = new List<string>();
+            List<int> usuariosId = new List<int>();
             
             foreach(Usuario u in users)
             {
-                emails.Add(u.Email);
+                usuariosId.Add(u.UsuarioId);
             }
             
-            if (emails.Contains(apuesta.Email))
+            if (usuariosId.Contains(apuesta.UsuarioId))
             {
                 try
                 {
-                    if (apuesta.Tipo)
+                    if (apuesta.isOver)
                     {
                         apuesta.Cuota = m.CuotaOver;
                     }
@@ -74,7 +74,7 @@ namespace WebAPI.Controllers
                     {
                         apuesta.Cuota = m.CuotaUnder;
                     }
-                    apuesta.Mercado = m.TipoMercado;
+                    apuesta.TipoMercado = m.TipoMercado;
 
                     repo.Save(apuesta);
                     repo2.Refresh(m, apuesta);
@@ -89,6 +89,10 @@ namespace WebAPI.Controllers
                 Debug.WriteLine("Usuario no existe");
             }
         }
+
+
+        /*
+
 
         // PUT: api/Apuestas/5
         public void Put(int id, [FromBody]string value)
