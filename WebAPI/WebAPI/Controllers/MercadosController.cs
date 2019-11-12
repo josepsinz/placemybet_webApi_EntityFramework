@@ -12,10 +12,10 @@ namespace WebAPI.Controllers
     {
 
         // GET: api/Mercados
-        public IEnumerable<Mercado> Get()
+        public IEnumerable<MercadoDTO> Get()
         {
             var repo = new MercadosRepository();
-            List<Mercado> mercados = repo.Retrieve();
+            List<MercadoDTO> mercados = repo.Retrieve();
             return mercados;
         }
 
@@ -26,7 +26,7 @@ namespace WebAPI.Controllers
             Mercado m = repo.Retrieve(id);
             return m;
         }
-        
+
         // GET: api/Mercados?id_partido={id_partido}
         public List<Mercado> GetbyEvento(int id_partido)
         {
@@ -34,19 +34,11 @@ namespace WebAPI.Controllers
             List<Mercado> mercados = repo.RetrieveByEvento(id_partido);
             return mercados;
         }
-        /*
-        // GET: api/Mercados?id_apuesta={id_apuesta}
-        public List<Mercado> GetbyEvento(int id_partido)
-        {
-            var repo = new MercadosRepository();
-            List<Mercado> mercados = repo.RetrieveByEvento(id_partido);
-            return mercados;
-        }
-        */
+
         // POST: api/Mercados
         public void Post([FromBody]Mercado m)
         {
-            if(m.TipoMercado == 1.5 || m.TipoMercado == 2.5 || m.TipoMercado == 3.5)
+            if (m.TipoMercado == 1.5 || m.TipoMercado == 2.5 || m.TipoMercado == 3.5)
             {
                 var repo1 = new MercadosRepository();
                 List<Mercado> mercados = repo1.RetrieveByEvento(m.EventoId);
@@ -60,9 +52,9 @@ namespace WebAPI.Controllers
                     var repo2 = new MercadosRepository();
                     repo2.Save(m);
                 }
-            }   
+            }
         }
-        /*
+
         // PUT: api/Mercados/5
         public void Put(int id, [FromBody]string value)
         {
@@ -72,6 +64,6 @@ namespace WebAPI.Controllers
         public void Delete(int id)
         {
         }
-        */
+
     }
 }

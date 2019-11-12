@@ -5,23 +5,44 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace WebAPI.Models
 {
     public class ApuestasRepository
     {
-
+        
         internal List<Apuesta> Retrieve()
         {
             List<Apuesta> apuestas = new List<Apuesta>();
 
             using (PlaceMyBetContext context = new PlaceMyBetContext())
             {
-                apuestas = context.Apuestas.ToList();
+                apuestas = context.Apuestas.Include(p=>p.Mercado).ToList();
+            }
+    
+            return apuestas;
+        }
+        
+
+        internal List<ApuestaDTO> RetrieveDTO()
+        {
+            List<ApuestaDTO> apuestas = new List<ApuestaDTO>();
+
+            using (PlaceMyBetContext context = new PlaceMyBetContext())
+            {
+                apuestas = context.Apuestas.Include(y=>y.Mercado).Select(p => ToDTO(p)).ToList();
             }
 
             return apuestas;
         }
+
+        public ApuestaDTO ToDTO(Apuesta a)
+        {
+            return new ApuestaDTO(a.UsuarioId, a.Mercado.EventoId,a.TipoMercado, a.isOver, a.Cuota, a.Apostado);
+        }
+
 
         internal Apuesta Retrieve(int id)
         {
@@ -33,6 +54,19 @@ namespace WebAPI.Models
             }
 
             return apuesta;
+        }
+
+        internal List<ApuestaDTO> RetrieveByUsuario(int id)
+        {
+            List<ApuestaDTO> apuestas = new List<ApuestaDTO>();
+
+            using (PlaceMyBetContext context = new PlaceMyBetContext())
+            {
+                
+                apuestas = context.Apuestas.Where(s => s.UsuarioId == id).Include(y => y.Mercado).Select(p => ToDTO(p)).ToList();
+            }
+
+            return apuestas;
         }
         /*
         internal List<ApuestaDTO> RetrieveDTO()
@@ -159,7 +193,7 @@ namespace WebAPI.Models
             }
         }
         */
-        internal void Save (Apuesta a)
+                internal void Save(Apuesta a)
         {
             try
             {
@@ -173,7 +207,7 @@ namespace WebAPI.Models
                 Debug.WriteLine("ERROR");
             }
         }
-        
+
     }
 }
 

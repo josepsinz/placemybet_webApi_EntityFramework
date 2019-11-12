@@ -338,10 +338,10 @@ namespace WebAPI.Controllers
             {
                 return GetErrorResult(result);
             }
-            /*
-            Usuario u = new Usuario(model.Email,model.Nombre, model.Apellidos, model.Edad, 0, false, model.Password);
+            
+            Usuario u = new Usuario(model.Id,model.Email,model.Nombre, model.Apellidos, model.Edad, 0, false, model.Password);
             repo.Save(u);
-            */
+            
             return Ok();
         }
 

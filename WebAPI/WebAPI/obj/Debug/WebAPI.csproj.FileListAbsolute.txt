@@ -419,3 +419,5 @@ C:\Users\perry\Desktop\PlaceMyBet_2\WebAPI\WebAPI\bin\es\Microsoft.AspNet.Identi
 C:\Users\perry\Desktop\PlaceMyBet_2\WebAPI\WebAPI\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
 C:\Users\perry\Desktop\PlaceMyBet_2\WebAPI\WebAPI\bin\es\System.Web.Http.Owin.resources.dll
 C:\Users\perry\Desktop\PlaceMyBet_2\WebAPI\WebAPI\obj\Debug\WebAPI.csproj.CopyComplete
+C:\Users\perry\Desktop\PlaceMyBet_2\WebAPI\WebAPI\bin\Chsword.JDynamic.dll
+C:\Users\perry\Desktop\PlaceMyBet_2\WebAPI\WebAPI\bin\Chsword.JDynamic.pdb

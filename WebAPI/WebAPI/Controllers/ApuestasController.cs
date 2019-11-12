@@ -11,7 +11,17 @@ namespace WebAPI.Controllers
 {
     public class ApuestasController : ApiController
     {
+        
+        // GET: api/Apuestas
+        public IEnumerable<ApuestaDTO> Get()
+        {
+            var repo = new ApuestasRepository();
+            List<ApuestaDTO> apuestas = repo.RetrieveDTO();
+            return apuestas;
+        }
 
+        /*
+        //get todas las apuestas con informacion de mercado
         // GET: api/Apuestas
         public IEnumerable<Apuesta> Get()
         {
@@ -19,6 +29,7 @@ namespace WebAPI.Controllers
             List<Apuesta> apuestas = repo.Retrieve();
             return apuestas;
         }
+        */
 
         // GET: api/Apuestas/5
         public Apuesta Get(int id)
@@ -27,6 +38,15 @@ namespace WebAPI.Controllers
             Apuesta apuesta = repo.Retrieve(id);
             return apuesta;
         }
+
+        // GET: api/Apuestas?idusuario={idusuario}
+        public List<ApuestaDTO> GetByUsuario(int idu)
+        {
+            var repo = new ApuestasRepository();
+            List<ApuestaDTO> apuestas = repo.RetrieveByUsuario(idu);
+            return apuestas;
+        }
+
         /*
         //GET: api/Apuestas?email={email}
         public List<ApuestaDTObyEmail> GetByEmail(string email)
@@ -36,6 +56,7 @@ namespace WebAPI.Controllers
             return apuestas;
         }
 
+       
         [Authorize(Roles = "Admin")]
         //GET: api/Apuestas?mercado={mercado}
         public List<ApuestaDTO> GetByMercado(int mercado)
@@ -45,7 +66,8 @@ namespace WebAPI.Controllers
             return apuestas;
         }
         */
-        //[Authorize]
+
+        [Authorize(Roles = "Standard")]
         // POST: api/Apuestas
         public void Post([FromBody]Apuesta apuesta)
         {
@@ -56,12 +78,12 @@ namespace WebAPI.Controllers
             Mercado m = repo2.Retrieve(apuesta.MercadoId);
             List<Usuario> users = repo3.Retrieve();
             List<int> usuariosId = new List<int>();
-            
-            foreach(Usuario u in users)
+
+            foreach (Usuario u in users)
             {
                 usuariosId.Add(u.UsuarioId);
             }
-            
+
             if (usuariosId.Contains(apuesta.UsuarioId))
             {
                 try
@@ -90,19 +112,16 @@ namespace WebAPI.Controllers
             }
         }
 
-
-        /*
-
-
         // PUT: api/Apuestas/5
         public void Put(int id, [FromBody]string value)
         {
+
         }
 
         // DELETE: api/Apuestas/5
         public void Delete(int id)
         {
         }
-        */
+
     }
 }

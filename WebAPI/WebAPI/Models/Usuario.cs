@@ -29,26 +29,12 @@ namespace WebAPI.Models
             Fondos = fondos;
             Administrador = administrador;
             Password = password;
-            
+
         }
 
         public Usuario()
         {
 
         }
-
     }
-    /*
-    public class UsuarioDTO
-    {
-        public string Email { get; set; }
-        
-
-        public UsuarioDTO(string email)
-        {
-            Email = email;
-           
-        }
-    }
-    */
 }

@@ -18,16 +18,20 @@ namespace WebAPI.Controllers
             List<Usuario> usuarios = repo.Retrieve();
             return usuarios;
         }
-        /*
+
         // GET: api/Usuarios/5
-        public string Get(int id)
+        public Usuario Get(int id)
         {
-            return "value";
+            var repo = new UsuariosRepository();
+            Usuario usuario = repo.Retrieve(id);
+            return usuario;
         }
 
         // POST: api/Usuarios
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Usuario u)
         {
+            var repo = new UsuariosRepository();
+            repo.Save(u);
         }
 
         // PUT: api/Usuarios/5
@@ -39,6 +43,6 @@ namespace WebAPI.Controllers
         public void Delete(int id)
         {
         }
-        */
+
     }
 }

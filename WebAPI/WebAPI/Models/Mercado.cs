@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using System.Xml.Serialization;
 
 namespace WebAPI.Models
 {
@@ -29,7 +30,7 @@ namespace WebAPI.Models
             DineroOver = dineroOver;
             DineroUnder = dineroUnder;
             EventoId = eventoid;
-           
+
         }
 
         public Mercado()
@@ -37,7 +38,7 @@ namespace WebAPI.Models
 
         }
     }
-    /*
+
     public class MercadoDTO
     {
         public MercadoDTO(float tipoMercado, float cuotaOver, float cuotaUnder)
@@ -51,5 +52,5 @@ namespace WebAPI.Models
         public float CuotaOver { get; set; }
         public float CuotaUnder { get; set; }
     }
-    */
+
 }

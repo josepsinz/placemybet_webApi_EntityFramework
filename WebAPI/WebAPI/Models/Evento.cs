@@ -32,18 +32,16 @@ namespace WebAPI.Models
         }
     }
 
-
-    /*
     public class EventoDTO
     {
+        public string Local { get; set; }
+        public string Visitante { get; set; }
+
         public EventoDTO(string local, string visitante)
         {
             Local = local;
             Visitante = visitante;
         }
-        
-        public string Local { get; set; }
-        public string Visitante { get; set; }
     }
-    */
+
 }

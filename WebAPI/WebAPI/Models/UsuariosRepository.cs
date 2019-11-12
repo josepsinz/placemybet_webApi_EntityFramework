@@ -1,7 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -24,39 +23,30 @@ namespace WebAPI.Models
             return usuarios;
         }
 
-        /*
+        internal Usuario Retrieve(int id)
+        {
+            Usuario usuario;
+
+            using (PlaceMyBetContext context = new PlaceMyBetContext())
+            {
+                usuario = context.Usuarios.Where(s => s.UsuarioId == id).FirstOrDefault();
+            }
+
+            return usuario;
+        }
+
         internal void Save(Usuario u)
         {
-            CultureInfo culInfo = new System.Globalization.CultureInfo("es-ES");
-            culInfo.NumberFormat.NumberDecimalSeparator = ".";
-            culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
-            culInfo.NumberFormat.PercentDecimalSeparator = ".";
-            culInfo.NumberFormat.CurrencyDecimalSeparator = ".";
-            System.Threading.Thread.CurrentThread.CurrentCulture = culInfo;
-
-            MySqlConnection con = Connect();
-            MySqlCommand command = con.CreateCommand();
-            command.CommandText = "insert into usuario (Email, Nombre, Apellidos, Edad, Fondos, Administrador, Password) values (@ema, @nom, @ape, @eda, @fon, @adm, @pas)";
-            command.Parameters.AddWithValue("@ema", u.Email);
-            command.Parameters.AddWithValue("@nom", u.Nombre);
-            command.Parameters.AddWithValue("@ape", u.Apellidos);
-            command.Parameters.AddWithValue("@eda", u.Edad);
-            command.Parameters.AddWithValue("@fon", u.Fondos);
-            command.Parameters.AddWithValue("@adm", u.Administrador);
-            command.Parameters.AddWithValue("@pas", u.Password);
-
-            Debug.WriteLine("command " + command.CommandText);
             try
             {
-                con.Open();
-                command.ExecuteNonQuery();
-                con.Close();
+                PlaceMyBetContext context = new PlaceMyBetContext();
+                context.Usuarios.Add(u);
+                context.SaveChanges();
             }
-            catch (MySqlException e)
+            catch
             {
-                Debug.WriteLine("Se ha producido un error de conexión");
+                Debug.WriteLine("ERROR");
             }
         }
-        */
     }
 }

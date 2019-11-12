@@ -10,7 +10,6 @@ namespace WebAPI.Controllers
 {
     public class EventosController : ApiController
     {
-
         // GET: api/Eventos
         public IEnumerable<Evento> Get()
         {
@@ -20,10 +19,11 @@ namespace WebAPI.Controllers
         }
 
         // GET: api/Eventos/5
-        public string Get(int id)
+        public Evento Get(int id)
         {
-
-            return "value";
+            var repo = new EventosRepositoy();
+            Evento e = repo.Retrieve(id);
+            return e;
         }
 
         // POST: api/Eventos
@@ -32,16 +32,20 @@ namespace WebAPI.Controllers
             var repo = new EventosRepositoy();
             repo.Save(evento);
         }
-        /*
+
         // PUT: api/Eventos/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]Evento e)
         {
+            var repo = new EventosRepositoy();
+            repo.Refresh(id, e);
         }
 
         // DELETE: api/Eventos/5
         public void Delete(int id)
         {
+            var repo = new EventosRepositoy();
+            repo.Delete(id);
         }
-        */
+
     }
 }

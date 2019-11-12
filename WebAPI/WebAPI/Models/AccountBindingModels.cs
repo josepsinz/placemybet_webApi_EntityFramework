@@ -60,6 +60,10 @@ namespace WebAPI.Models
         [Required]
         [Display(Name = "Edad")]
         public int Edad { get; set; }
+
+        //[Required]
+        [Display(Name = "Id")]
+        public int Id { get; set; }
     }
 
     public class RegisterExternalBindingModel
