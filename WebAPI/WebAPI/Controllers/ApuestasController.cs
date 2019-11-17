@@ -67,7 +67,7 @@ namespace WebAPI.Controllers
         }
         */
 
-        [Authorize(Roles = "Standard")]
+        //[Authorize(Roles = "Standard")]
         // POST: api/Apuestas
         public void Post([FromBody]Apuesta apuesta)
         {
